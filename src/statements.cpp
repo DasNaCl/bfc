@@ -161,12 +161,19 @@ void serialization::interpret(bf_machine& m) noexcept
 
 void serialization::print_c(std::ostream& os)
 {
-  os << "for(int i = 0; i < " << length
-     << (tok == token::Dot
-	 ?
-	 "; ++i) putchar(*ptr);"
-	 :
-	 "; ++i) *ptr = getchar();");
+  if(length > 1)
+  {
+    os << "for(int i = 0; i < " << length
+       << (tok == token::Dot
+	   ?
+	   "; ++i) putchar(*ptr);"
+	   :
+	   "; ++i) *ptr = getchar();");
+  }
+  else
+  {
+    os << (tok == token::Dot ? "putchar(*ptr);" : "getchar();");
+  }
 }
 
 void serialization::optimize(statement_optimizer& visitor)
